@@ -7,35 +7,35 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Repository;
+using Service.Interface;
 
 
 namespace Web.Controllers
 {
     public class RestaurantsController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IRestaurantService _restaurantService;
 
-        public RestaurantsController(ApplicationDbContext context)
+        public RestaurantsController(IRestaurantService restaurantService)
         {
-            _context = context;
+            _restaurantService = restaurantService;
         }
 
         // GET: Restaurants
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _context.Restaurants.ToListAsync());
+            return View(_restaurantService.GetAllRestaurants());
         }
 
         // GET: Restaurants/Details/5
-        public async Task<IActionResult> Details(Guid? id)
+        public IActionResult Details(Guid? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var restaurants = await _context.Restaurants
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var restaurants = _restaurantService.GetDetailsForRestaurant(id);
             if (restaurants == null)
             {
                 return NotFound();
@@ -55,27 +55,26 @@ namespace Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,Image,Location,Id")] Restaurants restaurants)
+        public IActionResult Create([Bind("Name,Image,Location,Id")] Restaurants restaurants)
         {
             if (ModelState.IsValid)
             {
                 restaurants.Id = Guid.NewGuid();
-                _context.Add(restaurants);
-                await _context.SaveChangesAsync();
+                _restaurantService.CreateNewRestaurant(restaurants);
                 return RedirectToAction(nameof(Index));
             }
             return View(restaurants);
         }
 
         // GET: Restaurants/Edit/5
-        public async Task<IActionResult> Edit(Guid? id)
+        public IActionResult Edit(Guid? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var restaurants = await _context.Restaurants.FindAsync(id);
+            var restaurants = _restaurantService.GetDetailsForRestaurant(id);
             if (restaurants == null)
             {
                 return NotFound();
@@ -88,7 +87,7 @@ namespace Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Name,Image,Location,Id")] Restaurants restaurants)
+        public IActionResult Edit(Guid id, [Bind("Name,Image,Location,Id")] Restaurants restaurants)
         {
             if (id != restaurants.Id)
             {
@@ -99,8 +98,7 @@ namespace Web.Controllers
             {
                 try
                 {
-                    _context.Update(restaurants);
-                    await _context.SaveChangesAsync();
+                    _restaurantService.UpdateExistingRestaurant(restaurants);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -119,15 +117,14 @@ namespace Web.Controllers
         }
 
         // GET: Restaurants/Delete/5
-        public async Task<IActionResult> Delete(Guid? id)
+        public IActionResult Delete(Guid? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var restaurants = await _context.Restaurants
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var restaurants = _restaurantService.GetDetailsForRestaurant(id);
             if (restaurants == null)
             {
                 return NotFound();
@@ -139,21 +136,32 @@ namespace Web.Controllers
         // POST: Restaurants/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(Guid id)
+        public IActionResult DeleteConfirmed(Guid id)
         {
-            var restaurants = await _context.Restaurants.FindAsync(id);
+            var restaurants = _restaurantService.GetDetailsForRestaurant(id);
             if (restaurants != null)
             {
-                _context.Restaurants.Remove(restaurants);
+                _restaurantService.DeleteRestaurant(id);
             }
 
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool RestaurantsExists(Guid id)
         {
-            return _context.Restaurants.Any(e => e.Id == id);
+            return _restaurantService.GetDetailsForRestaurant(id) != null;
         }
+
+
+
+
+        public IActionResult Menu(Guid? id)
+        {
+            return View(_restaurantService.GetMenu((Guid)id));
+        }
+
+
+
+
     }
 }

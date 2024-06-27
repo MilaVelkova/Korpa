@@ -5,6 +5,6 @@
         public string Name { get; set; }
         public string Image { get; set; }
         public string Location { get; set; }
-        public List<Food_items> food_Items{get; set;}
+        //public List<Food_items> food_Items{get; set;}
         }
 }
