@@ -1,7 +1,8 @@
+using Domain.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Web.Data;
-using Web.Models;
+using Repository;
+
 
 var builder = WebApplication.CreateBuilder(args);
 

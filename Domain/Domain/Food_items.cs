@@ -1,4 +1,4 @@
-﻿namespace Web.Models
+﻿namespace Domain.Domain
 {
     public class Food_items :BaseEntity
     {

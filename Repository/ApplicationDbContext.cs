@@ -1,8 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Domain.Domain;
+using Domain.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Web.Models;
 
-namespace Web.Data
+namespace Repository
 {
     public class ApplicationDbContext : IdentityDbContext<Customer>
     {

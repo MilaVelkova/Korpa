@@ -1,6 +1,7 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Domain.Domain;
+using Microsoft.AspNetCore.Identity;
 
-namespace Web.Models
+namespace Domain.Identity
 {
     public class Customer : IdentityUser
     {

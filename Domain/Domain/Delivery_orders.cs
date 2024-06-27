@@ -1,4 +1,6 @@
-﻿namespace Web.Models
+﻿using Domain.Identity;
+
+namespace Domain.Domain
 {
     public class Delivery_orders : BaseEntity
     {

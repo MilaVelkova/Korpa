@@ -1,4 +1,4 @@
-﻿namespace Web.Models
+﻿namespace Domain.Domain
 {
     public class FoodInShoppingCart : BaseEntity
     {
