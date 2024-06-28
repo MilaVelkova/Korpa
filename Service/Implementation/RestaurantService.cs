@@ -41,6 +41,11 @@ namespace Service.Implementation
             return _restaurantRepository.Get(id);
         }
 
+        public Restaurants GetDetailsForRestaurant(BaseEntity id)
+        {
+            return _restaurantRepository.Get(id);
+        }
+
         public List<Food_items> GetMenu(Guid id)
         {
             List<Food_items> food_Items = _fooditemsRepository.GetAll().ToList();

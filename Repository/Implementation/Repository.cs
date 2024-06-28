@@ -32,6 +32,11 @@ namespace Repository.Implementation
             return entities.SingleOrDefault(t=> t.Id == id);
         }
 
+        public T Get(BaseEntity id)
+        {
+            return entities.SingleOrDefaultAsync(z => z.Id == id.Id).Result;
+        }
+
         public IEnumerable<T> GetAll()
         {
             return entities.AsEnumerable();

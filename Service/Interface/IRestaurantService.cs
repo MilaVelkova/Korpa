@@ -11,6 +11,7 @@ namespace Service.Interface
     {
         List<Restaurants> GetAllRestaurants();
         Restaurants GetDetailsForRestaurant(Guid? id);
+        Restaurants GetDetailsForRestaurant(BaseEntity id);
         void CreateNewRestaurant(Restaurants restaurant);
         void UpdateExistingRestaurant(Restaurants restaurant);
         void DeleteRestaurant(Guid id);
