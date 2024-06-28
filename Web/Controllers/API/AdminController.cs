@@ -1,4 +1,5 @@
 ﻿using Domain.Domain;
+using Domain.DTO;
 using Domain.Identity;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -12,11 +13,14 @@ namespace Web.Controllers.API
     public class AdminController : ControllerBase
     {
         private readonly IRestaurantService _restaurantService;
+        private readonly IFoodItemService _foodItemService;
         private readonly UserManager<Customer> _userManager;
-        public AdminController(IRestaurantService restaurantService, UserManager<Customer> userManager)
+        public AdminController(IRestaurantService restaurantService, UserManager<Customer> userManager,
+            IFoodItemService foodItemService)
         {
             _restaurantService = restaurantService;
             _userManager = userManager;
+            _foodItemService = foodItemService;
         }
         [HttpGet("[action]")]
         public List<Restaurants> GetAllRestaurants()
@@ -46,6 +50,43 @@ namespace Web.Controllers.API
         public void Delete(Restaurants restaurant)
         {
             _restaurantService.DeleteRestaurant(restaurant.Id);
+        }
+        [HttpPost("[action]")]
+        public List<Food_items> GetMenu(BaseEntity model)
+        {
+            return _restaurantService.GetMenu(model.Id);
+        }
+               
+        [HttpPost("[action]")]
+        public void CreateFoodItem(FoodDto food)
+        {
+            Food_items foodItem = new Food_items()
+            {
+                Id = food.Id,
+                Name = food.Name,
+                Image = food.Image,
+                Ingredients = food.Ingredients,
+                Price = food.Price,
+                RestaurantId = food.RestaurantId
+            };
+            _foodItemService.CreateNewFood(foodItem);
+        }
+
+        [HttpPost("[action]")]
+        public Food_items GetDetailsFood(BaseEntity id)
+        {
+            return _foodItemService.GetDetailsForFood(id.Id);
+        }
+
+        [HttpPost("[action]")]
+        public void EditFood(Food_items food)
+        {
+            _foodItemService.UpdateExistingFood(food);
+        }
+        [HttpPost("[action]")]
+        public void DeleteFood(BaseEntity model)
+        {
+            _foodItemService.DeleteFood(model.Id);
         }
     }
 }

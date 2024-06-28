@@ -7,7 +7,7 @@
 <h1>Menu for </h1>
 
 <p>
-    <a asp-controller="Food_items" asp-action="Create">Add new Food</a>
+    @* <a asp-controller="Food_items" asp-action="Create">Add new Food</a>*@
 </p>
 <table class="table">
     <thead>
@@ -45,9 +45,7 @@
                 </td>
                 <td>
                     <a asp-action="Add_to_cart" asp-route-id="@item.Id" asp-route-retaurantid="@item.RestaurantId">Add to cart</a> |
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a>
                 </td>
             </tr>
         }
