@@ -78,22 +78,20 @@ namespace Service.Implementation
             return dto;
         }
 
-        public bool order(string userId)
+        public bool order(string userId, string Address)
         {
             if (userId != null)
             {
                 var loggedInUser = _userRepository.Get(userId);
 
                 var userShoppingCart = loggedInUser.ShoppingCart;
-                //EmailMessage message = new EmailMessage();
-                //message.Subject = "Successfull order";
-                //message.MailTo = loggedInUser.Email;
 
                 Delivery_orders order = new Delivery_orders
                 {
                     Id = Guid.NewGuid(),
                     CustomerId = userId,
-                    Customer = loggedInUser
+                    Customer = loggedInUser,
+                    Address = Address
                 };
 
                 _orderRepository.Insert(order);
@@ -104,9 +102,9 @@ namespace Service.Implementation
                     x => new FoodInOrder
                     {
                         Id = Guid.NewGuid(),
-                        FoodId = x.Food_Items.Id,
+                        Food_ItemsId = x.Food_Items.Id,
                         Food_Items = x.Food_Items,
-                        OrderId = order.Id,
+                        Delivery_OrdersId = order.Id,
                         Delivery_Orders = order,
                         Quantity = x.Quantity
                     }

@@ -192,8 +192,6 @@ namespace Web.Controllers
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             _shoppingCartService.AddToShoppingConfirmed(model, userId);
 
-
-
             return View("Index", _restaurantService.GetAllRestaurants());
         }
 

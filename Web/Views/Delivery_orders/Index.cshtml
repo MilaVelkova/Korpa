@@ -1,19 +1,19 @@
-﻿@model IEnumerable< Domain.Domain.Delivery_orders>
+﻿@model IEnumerable<Domain.Domain.Delivery_orders>
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Orders</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Customer)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Address)
             </th>
             <th></th>
         </tr>
@@ -24,6 +24,9 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Customer.Id)
             </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Address)
+                </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
