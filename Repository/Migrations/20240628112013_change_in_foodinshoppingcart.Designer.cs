@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Repository;
 
@@ -11,9 +12,11 @@ using Repository;
 namespace Repository.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240628112013_change_in_foodinshoppingcart")]
+    partial class change_in_foodinshoppingcart
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -75,13 +78,19 @@ namespace Repository.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("Food_ItemsId")
+                    b.Property<Guid>("FoodId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("Food_ItemsId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
                     b.Property<Guid>("RestaurantId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("RestaurantsId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("ShoppingCartId")
@@ -91,7 +100,7 @@ namespace Repository.Migrations
 
                     b.HasIndex("Food_ItemsId");
 
-                    b.HasIndex("RestaurantId");
+                    b.HasIndex("RestaurantsId");
 
                     b.HasIndex("ShoppingCartId");
 
@@ -412,15 +421,11 @@ namespace Repository.Migrations
                 {
                     b.HasOne("Domain.Domain.Food_items", "Food_Items")
                         .WithMany("FoodInShoppingCarts")
-                        .HasForeignKey("Food_ItemsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("Food_ItemsId");
 
-                    b.HasOne("Domain.Domain.Restaurants", "Restaurant")
+                    b.HasOne("Domain.Domain.Restaurants", "Restaurants")
                         .WithMany()
-                        .HasForeignKey("RestaurantId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("RestaurantsId");
 
                     b.HasOne("Domain.Domain.ShoppingCart", "ShoppingCart")
                         .WithMany("FoodInShoppingCarts")
@@ -430,7 +435,7 @@ namespace Repository.Migrations
 
                     b.Navigation("Food_Items");
 
-                    b.Navigation("Restaurant");
+                    b.Navigation("Restaurants");
 
                     b.Navigation("ShoppingCart");
                 });

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Domain.Domain;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -15,10 +17,12 @@ namespace Web.Controllers
     public class RestaurantsController : Controller
     {
         private readonly IRestaurantService _restaurantService;
+        private readonly IShoppingCartService _shoppingCartService;
 
-        public RestaurantsController(IRestaurantService restaurantService)
+        public RestaurantsController(IRestaurantService restaurantService, IShoppingCartService shoppingCartService)
         {
             _restaurantService = restaurantService;
+            _shoppingCartService = shoppingCartService;
         }
 
         // GET: Restaurants
@@ -160,8 +164,38 @@ namespace Web.Controllers
             return View(_restaurantService.GetMenu((Guid)id));
         }
 
+        [Authorize]
+        public IActionResult Add_to_cart(Guid? id, Guid? retaurantid)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var retaurant = _restaurantService.GetDetailsForRestaurant(retaurantid);
+
+            FoodInShoppingCart ps = new FoodInShoppingCart();
+
+            if (retaurant != null)
+            {
+                ps.Food_ItemsId = (Guid)id;
+                ps.RestaurantId = (Guid)retaurantid;
+
+            }
+
+            return View(ps);
+        }
+
+        [HttpPost]
+        public IActionResult AddToCartConfirmed(FoodInShoppingCart model)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            _shoppingCartService.AddToShoppingConfirmed(model, userId);
 
 
+
+            return View("Index", _restaurantService.GetAllRestaurants());
+        }
 
     }
 }

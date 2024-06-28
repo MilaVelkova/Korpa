@@ -28,6 +28,7 @@ builder.Services.AddScoped(typeof(ICustomerRepository), typeof(CustomerRepositor
 
 
 builder.Services.AddTransient<IRestaurantService, RestaurantService>();
+builder.Services.AddTransient<IShoppingCartService, ShoppingCartService>();
 
 var app = builder.Build();
 

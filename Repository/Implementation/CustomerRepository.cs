@@ -35,8 +35,8 @@ namespace Repository.Implementation
         {
             return entities
               .Include(z => z.ShoppingCart)
-              //.Include("ShoppingCart.ProductInShoppingCarts")
-              //.Include("ShoppingCart.ProductInShoppingCarts.Product")
+              .Include("ShoppingCart.FoodInShoppingCarts")
+              .Include("ShoppingCart.FoodInShoppingCarts.Food_Items")
               .SingleOrDefault(s => s.Id == id);
         }
 
