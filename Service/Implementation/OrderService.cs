@@ -19,7 +19,11 @@ namespace Service.Implementation
             _orderRepository = orderRepository;
             _userRepository = userRepository;
         }
-        
+
+        public List<Delivery_orders> Delivery_orders()
+        {
+            return _orderRepository.GetAllOrders();
+        }
 
         public Delivery_orders GetDetailsForOrder(BaseEntity id)
         {

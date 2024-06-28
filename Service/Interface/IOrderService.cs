@@ -10,6 +10,7 @@ namespace Service.Interface
 {
     public interface IOrderService
     {
+        List<Delivery_orders> Delivery_orders();
         List<Delivery_orders> getShoppingCartInfo(string userId);
         Delivery_orders GetDetailsForOrder(BaseEntity id);
     }

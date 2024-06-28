@@ -46,17 +46,6 @@ namespace Web.Controllers
 
         public IActionResult Order()
         {
-            /*var userId = User.FindFirstValue(ClaimTypes.NameIdentifier) ?? null;
-
-            var result = _shoppingCartService.order(userId ?? "");
-
-            OrderDto order = new OrderDto()
-            {
-
-            };
-
-            return RedirectToAction("Index", "ShoppingCarts");*/
-
             return View();
         }
         [HttpPost]

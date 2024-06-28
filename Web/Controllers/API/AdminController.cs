@@ -14,13 +14,15 @@ namespace Web.Controllers.API
     {
         private readonly IRestaurantService _restaurantService;
         private readonly IFoodItemService _foodItemService;
+        private readonly IOrderService _orderService;
         private readonly UserManager<Customer> _userManager;
         public AdminController(IRestaurantService restaurantService, UserManager<Customer> userManager,
-            IFoodItemService foodItemService)
+            IFoodItemService foodItemService, IOrderService orderService)
         {
             _restaurantService = restaurantService;
             _userManager = userManager;
             _foodItemService = foodItemService;
+            _orderService = orderService;
         }
         [HttpGet("[action]")]
         public List<Restaurants> GetAllRestaurants()
@@ -79,14 +81,33 @@ namespace Web.Controllers.API
         }
 
         [HttpPost("[action]")]
-        public void EditFood(Food_items food)
+        public void EditFood(FoodDto food)
         {
-            _foodItemService.UpdateExistingFood(food);
+            Food_items item = _foodItemService.GetDetailsForFood(food.Id);
+            item.Name = food.Name;
+            item.Image = food.Image;
+            item.Price = food.Price;
+            item.Ingredients = food.Ingredients;
+            _foodItemService.UpdateExistingFood(item);
         }
         [HttpPost("[action]")]
         public void DeleteFood(BaseEntity model)
         {
             _foodItemService.DeleteFood(model.Id);
         }
+
+        [HttpGet("[action]")]
+        public List<Delivery_orders> GetAllOrders()
+        {
+            return _orderService.Delivery_orders();
+        }
+
+        [HttpPost("[action]")]
+        public Delivery_orders GetDetailsForOrder(BaseEntity id)
+        {
+            return this._orderService.GetDetailsForOrder(id);
+        }
+
+
     }
 }
