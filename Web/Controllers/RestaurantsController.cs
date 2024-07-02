@@ -18,11 +18,13 @@ namespace Web.Controllers
     {
         private readonly IRestaurantService _restaurantService;
         private readonly IShoppingCartService _shoppingCartService;
+        private readonly IFoodItemService _foodItemService;
 
-        public RestaurantsController(IRestaurantService restaurantService, IShoppingCartService shoppingCartService)
+        public RestaurantsController(IRestaurantService restaurantService, IShoppingCartService shoppingCartService, IFoodItemService foodItemService)
         {
             _restaurantService = restaurantService;
             _shoppingCartService = shoppingCartService;
+            _foodItemService=foodItemService;
         }
 
         // GET: Restaurants
@@ -159,9 +161,9 @@ namespace Web.Controllers
 
 
 
-        public IActionResult Menu(Guid? id)
+        public IActionResult Menu(Guid id)
         {
-            return View(_restaurantService.GetMenu((Guid)id));
+            return View(_restaurantService.GetMenu(id));
         }
 
         [Authorize]
@@ -173,6 +175,8 @@ namespace Web.Controllers
             }
 
             var retaurant = _restaurantService.GetDetailsForRestaurant(retaurantid);
+            var food = _foodItemService.GetDetailsForFood(id);
+            
 
             FoodInShoppingCart ps = new FoodInShoppingCart();
 
@@ -180,6 +184,7 @@ namespace Web.Controllers
             {
                 ps.Food_ItemsId = (Guid)id;
                 ps.RestaurantId = (Guid)retaurantid;
+                ps.Food_Items = food;
 
             }
 
@@ -192,7 +197,7 @@ namespace Web.Controllers
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             _shoppingCartService.AddToShoppingConfirmed(model, userId);
 
-            return View("Index", _restaurantService.GetAllRestaurants());
+            return RedirectToAction("Menu",new {id=model.RestaurantId});
         }
 
     }

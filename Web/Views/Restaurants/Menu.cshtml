@@ -4,50 +4,37 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Menu for </h1>
-
+<h1>Menu for  </h1>
+ 
 <p>
     @* <a asp-controller="Food_items" asp-action="Create">Add new Food</a>*@
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Image)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Ingredients)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Price)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
+<div class="row justify-content-center">
+    
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Image)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Ingredients)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Price)
-                </td>
-                <td>
-                    <a asp-action="Add_to_cart" asp-route-id="@item.Id" asp-route-retaurantid="@item.RestaurantId">Add to cart</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+<div class="col-8">
+    <div class="card mb-3" >
+        <div class="row g-0">
+            <div class="col-md-3">
+                <img src="@item.Image" class="img-fluid rounded-start" alt="..." style="height:12rem;width:12rem">
+            </div>
+            <div class="col-md-6">
+                <div class="card-body">
+                    <h5 class="card-title ">@item.Name</h5>
+                    <p class="card-text">@item.Ingredients</p>
+                        <p class="fw-bold text-success">@item.Price Ден.</p>
+                    
+                </div>
+            </div>
+            <div class="col-3 d-flex d-flex align-items-center justify-content-center">
+                <a asp-action="Add_to_cart" asp-route-id="@item.Id" asp-route-retaurantid="@item.RestaurantId" class="btn btn-success btn-lg">Add to cart</a>
+
+                
+            </div>
+        </div>
+    </div>
+
+        </div>
+    }
+</div>
