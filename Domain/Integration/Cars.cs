@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Domain.Integration
 {
-    public class Car
+    public class Cars
     {
         public Guid Id { get; set; }
         [Required]
@@ -20,5 +21,8 @@ namespace Domain.Integration
         public double Price { get; set; }
         [Required]
         public double Rating { get; set; }
+        public virtual CarRentalCustomer? CreatedBy { get; set; }
+
+
     }
 }
