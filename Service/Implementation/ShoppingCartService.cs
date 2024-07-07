@@ -50,6 +50,8 @@ namespace Service.Implementation
             return true;
         }
 
+        
+
         public bool deleteProductFromShoppingCart(string userId, Guid productId)
         {
             if (productId != null)
@@ -83,6 +85,40 @@ namespace Service.Implementation
                 TotalPrice = totalPrice
             };
             return dto;
+        }
+
+        public bool IncreaseQantityForProduct(string userId, Guid productId)
+        {
+            if (productId != null)
+            {
+                var loggedInUser = _userRepository.Get(userId);
+
+                var userShoppingCart = loggedInUser.ShoppingCart;
+                var product = userShoppingCart.FoodInShoppingCarts.Where(x => x.Food_ItemsId == productId).FirstOrDefault();
+
+                product.Quantity++;
+
+                _shoppingCartRepository.Update(userShoppingCart);
+                return true;
+            }
+            return false;
+        }
+
+        public bool DecreaseQantityForProduct(string userId, Guid productId)
+        {
+            if (productId != null)
+            {
+                var loggedInUser = _userRepository.Get(userId);
+                var userShoppingCart = loggedInUser.ShoppingCart;
+                var product = userShoppingCart.FoodInShoppingCarts.Where(x => x.Food_ItemsId == productId).FirstOrDefault();
+                if (product.Quantity-1 > 0)
+                {
+                    product.Quantity--;
+                }
+                _shoppingCartRepository.Update(userShoppingCart);
+                return true;
+            }
+            return false;
         }
 
         public bool order(string userId, string Address)

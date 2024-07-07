@@ -42,6 +42,22 @@ namespace Web.Controllers
             return RedirectToAction("Index");
 
         }
+        public IActionResult IncreaseProductQantity(Guid id)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            _shoppingCartService.IncreaseQantityForProduct(userId, id);
+
+            return RedirectToAction("Index");
+
+        }
+        public IActionResult DecreaseProductQantity(Guid id)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            _shoppingCartService.DecreaseQantityForProduct(userId, id);
+
+            return RedirectToAction("Index");
+
+        }
 
 
         public IActionResult Order()
