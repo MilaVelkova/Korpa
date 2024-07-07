@@ -32,5 +32,15 @@ namespace Web.Controllers
             return View(dto);
         }   
 
+        public IActionResult Details(Guid id)
+        {
+            var model = new BaseEntity
+            {
+                Id = id
+            };
+            var order = _orderService.GetDetailsForOrder(model);
+            return View(order);
+        }
+
     }
 }
