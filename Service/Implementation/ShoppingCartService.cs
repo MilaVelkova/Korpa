@@ -37,8 +37,15 @@ namespace Service.Implementation
 
             if (userShoppingCart.FoodInShoppingCarts == null)
                 userShoppingCart.FoodInShoppingCarts = new List<FoodInShoppingCart>(); ;
-
-            userShoppingCart.FoodInShoppingCarts.Add(model);
+            var item = userShoppingCart.FoodInShoppingCarts.FirstOrDefault(x => x.Food_ItemsId == model.Food_ItemsId);
+            if (item != null)
+            {
+                item.Quantity += model.Quantity;
+            }
+            else
+            {
+                userShoppingCart.FoodInShoppingCarts.Add(model);
+            }
             _shoppingCartRepository.Update(userShoppingCart);
             return true;
         }

@@ -85,6 +85,10 @@
                                     <h5 class="text-uppercase">Total price</h5>
                                     <h5>@Model.TotalPrice Ден.</h5>
                                 </div>
+                                <div class="d-flex justify-content-between mb-5">
+                                    <h5 class="text-uppercase">Total number of products</h5>
+                                    <h5>@Model.Products.Sum(x => x.Quantity)</h5>
+                                </div>
 
                                
 
